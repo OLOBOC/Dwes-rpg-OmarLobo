@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             
-            header("Location: create_item.php?success=1");
+            header("Location: create_item.php");
             exit;
         } else {
             die("No se pudo eliminar el item.");
