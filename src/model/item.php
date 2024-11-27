@@ -125,6 +125,31 @@ class Item
         }
     }
 
+    public static function getById($db, $id)
+    {
+        try {
+            $stmt = $db->prepare("SELECT * FROM items WHERE id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
     
+            $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($itemData) {
+                $item = new Item($db);
+                $item->setId($itemData['id'])
+                     ->setName($itemData['name'])
+                     ->setDescription($itemData['description'])
+                     ->setType($itemData['type'])
+                     ->setEffect($itemData['effect'])
+                     ->setImg($itemData['img']);
+                return $item;
+            }
+            return null; // Retorna null si no se encuentra el ítem
+        } catch (PDOException $e) {
+            echo "Error al obtener el item por ID: " . $e->getMessage();
+            return null;
+        }
+    }
+     
 
 }

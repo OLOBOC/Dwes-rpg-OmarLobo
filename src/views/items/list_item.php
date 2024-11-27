@@ -3,22 +3,6 @@ require_once("../../config/db.php");
 require_once("../../model/item.php");
 
 $items = Item::getAll($db);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $item = new Item($db);
-
-    $item->setName($_POST['name'])
-         ->setDescription($_POST['description'])
-         ->setType($_POST['type'])
-         ->setEffect($_POST['effect'])
-         ->setImg($_POST['img']);
-
-    if ($item->save()) {
-        echo "¡item guardado com exito!";
-        
-    } else {
-        echo "Error al guardar el ítem.";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -95,3 +79,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </table>
 </body>
 </html>
+

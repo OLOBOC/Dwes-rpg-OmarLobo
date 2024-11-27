@@ -189,4 +189,7 @@ class Character{
 
         return $this;
     }
+   
+}
+
 }

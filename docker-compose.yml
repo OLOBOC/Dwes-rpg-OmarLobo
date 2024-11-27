@@ -3,7 +3,7 @@ services:
   web:
     build: ./docker/apache
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - ./src:/var/www/html   # Monta src en lugar de copiar
     depends_on:
@@ -31,7 +31,7 @@ services:
       PMA_HOST: db  # Nombre del servicio de MySQL
       MYSQL_ROOT_PASSWORD: rootpassword  # Debe coincidir con la contraseña de root de MySQL
     ports:
-      - "8081:80"  # Exponer phpMyAdmin en el puerto 8081
+      - "8082:80"  # Exponer phpMyAdmin en el puerto 8081
     depends_on:
       - db
     networks:
