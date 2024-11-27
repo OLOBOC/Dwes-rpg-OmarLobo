@@ -65,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <th>Tipo</th>
                 <th>Efecto</th>
                 <th>Imagen</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
