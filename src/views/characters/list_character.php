@@ -1,35 +1,14 @@
 <?php
-
 require_once("../../config/db.php");
 require_once("../../model/Character.php");
 
-$characters =[];
-try{
-    $stmt = $db->query("SELECT * FROM characters");
-$characters=$stmt -> fetchAll(PDO::FETCH_ASSOC);
-}
-catch(PDOException $e){
-    echo "Error al leer en base de datos: ". $e->getMessage();
-}
- 
+// instancia char
+$characterModel = new Character($db);
 
+//todos los characters
+$characters = $characterModel->getAll(); 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $character = new Character($db);
-    $character->setName($_POST['name'])
-              ->setDescription($_POST['description'])
-              ->setHealth($_POST['health'])
-              ->setStrength($_POST['strength'])
-              ->setDefense($_POST['defense']);
-
-    if($character->save()){
-        echo "Personaje guardado con exito";
-    }
-    
-
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 </body>
 </html>
 
-    
 
 
 

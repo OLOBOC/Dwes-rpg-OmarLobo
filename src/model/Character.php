@@ -155,23 +155,41 @@ class Character{
     }
     
 
-    function save(){
-    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-        
-      
     
-        $stmt = $this->db->prepare("INSERT INTO characters (name, description, health, strength, defense) VALUES (:name, :description, :health, :strength, :defense)");
+    function save() {
+        if ($this->id) {
+           
+            $stmt = $this->db->prepare(
+                "UPDATE characters 
+                        SET name = :name, 
+                       description = :description, 
+                        health = :health, 
+                        strength = :strength, 
+                        defense = :defense, 
+                        image = :image 
+                        WHERE id = :id"
+            );
+            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        } else {
+            
+            $stmt = $this->db->prepare(
+                "INSERT INTO characters (name, description, health, strength, defense, image) 
+                 VALUES (:name, :description, :health, :strength, :defense, :image)"
+            );
+        }
+    
+        
         $stmt->bindValue(':name', $this->getName());
         $stmt->bindValue(':description', $this->getDescription());
-        $stmt->bindValue(':health', $this->getHealth());
-        $stmt->bindValue(':strength', $this->getStrength());
-        $stmt->bindValue(':defense', $this->getDefense());
+        $stmt->bindValue(':health', $this->getHealth(), PDO::PARAM_INT);
+        $stmt->bindValue(':strength', $this->getStrength(), PDO::PARAM_INT);
+        $stmt->bindValue(':defense', $this->getDefense(), PDO::PARAM_INT);
+        $stmt->bindValue(':image', $this->getImage());
     
+        
         return $stmt->execute();
     }
     
-    }
-
     /**
      * Get the value of db
      */
@@ -189,7 +207,28 @@ class Character{
 
         return $this;
     }
-   
+    public function loadById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM characters WHERE id = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $this->id = $data['id'];
+            $this->name = $data['name'];
+            $this->description = $data['description'];
+            $this->health = $data['health'];
+            $this->strength = $data['strength'];
+            $this->defense = $data['defense'];
+            $this->image = $data['image'];
+            return true;
+        }
+        return false; 
+    }
+    public function getAll() {
+        $stmt = $this->db->prepare("SELECT * FROM characters");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); //array asociativo
+    }
 }
 
-}

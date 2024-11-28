@@ -66,24 +66,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <table>
         <thead>
             <tr>
-                <th>Imagen</th>
+                
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Salud</th>
                 <th>Fuerza</th>
                 <th>Defensa</th>
+                <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($enemies as $enemy) : ?>
                 <tr>
-                    <td><img src="<?= $enemy['img'] ?>" alt="Imagen" width="50"></td>
+                    
                     <td><?= $enemy['name'] ?></td>
                     <td><?= $enemy['description'] ?></td>
                     <td><?= $enemy['health'] ?></td>
                     <td><?= $enemy['strength'] ?></td>
                     <td><?= $enemy['defense'] ?></td>
+                    <td><img src="<?= $enemy['img'] ?>" alt="Imagen" width="50"></td>
                     <td>
                         <form action="edit_enemy.php" method="GET">
                             <input type="hidden" name="id" value="<?= $enemy['id'] ?>">
