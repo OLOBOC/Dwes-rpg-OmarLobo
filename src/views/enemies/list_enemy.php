@@ -2,27 +2,7 @@
 require_once("../../config/db.php");
 require_once("../../model/Enemy.php");
 
-$enemies = [];
-try {
-    $enemies = Enemy::getAll($db);
-} catch (PDOException $ex) {
-    echo "Error al leer en la base de datos: " . $ex->getMessage();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $enemy = new Enemy($db);
-    $enemy->setName($_POST['name'])
-          ->setDescription($_POST['description'])
-          ->setIsBoss(isset($_POST['isBoss']) ? 1 : 0)
-          ->setHealth($_POST['health'])
-          ->setStrength($_POST['strength'])
-          ->setDefense($_POST['defense'])
-          ->setImg($_POST['img']);
-
-    if ($enemy->save()) {
-        echo "Enemigo guardado con éxito";
-    }
-}
+$enemys = Enemy::getAll($db);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Crear Enemigo</title>
 </head>
 <body>
-    <h1>Menu:</h1>
+    <h1>Menú:</h1>
     <?php include('../partials/_menu.php') ?>
 
     <h1>Crea tu enemigo</h1>
@@ -77,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($enemies as $enemy) : ?>
+            <?php foreach ($enemys as $enemy) : ?>
                 <tr>
                     
                     <td><?= $enemy['name'] ?></td>
@@ -85,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td><?= $enemy['health'] ?></td>
                     <td><?= $enemy['strength'] ?></td>
                     <td><?= $enemy['defense'] ?></td>
-                    <td><p>imagen</p></td>
+                    <td><img src="" alt=""></td>
                     <td>
                         <form action="edit_enemy.php" method="GET">
                             <input type="hidden" name="id" value="<?= $enemy['id'] ?>">
